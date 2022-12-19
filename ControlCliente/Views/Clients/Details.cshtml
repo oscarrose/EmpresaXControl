@@ -1,0 +1,116 @@
+﻿@model DbLibrary.Models.Client
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h3>Client information</h3>
+
+<div>
+
+    <hr />
+    <dl class="row row-cols-1 row-cols-md-2 g-4 row">
+        <dt class="col-sm-2">
+            Id cliente
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ClientId)
+        </dd>
+        <dt class="col-sm-2">
+            Name
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ClientName)
+        </dd>
+        <dt class="col-sm-2">
+            Last name
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.LastName)
+        </dd>
+        <dt class="col-sm-2">
+            Identification
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Identification)
+        </dd>
+        <dt class="col-sm-2">
+            Email
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt class="col-sm-2">
+            Phone
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.PhoneNumber)
+        </dd>
+         <dt class="col-sm-2">
+            Status
+        </dt>
+        <dd class="col-sm-10">
+          
+            @Html.DisplayFor(model => model.StatusClient)
+        </dd>
+        <dd class="col-xxl-12">
+            <div class="container">
+
+                <h3 class="mt-1">Addresses</h3>
+                <hr />
+                <div class="row">
+                    <table class="table table-hover  table-sm table-responsive" id="tableAddAddresses">
+                        <thead class="table-light">
+                            <tr>
+                                <td>Country</td>
+                                <td>State</td>
+                                <td>City</td>
+                                <td>Street</td>
+                                <td>Postal code</td>
+                                <td>House number</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @for (int i = 0; i < Model.ClientAddresses.Count(); i++)
+                            {
+                                <tr>
+
+                                    <td>
+                                        <input asp-for="@Model.ClientAddresses[i].Country" class="form-control-plaintext" readonly />
+                                    </td>
+                                    <td>
+                                        <input asp-for="@Model.ClientAddresses[i].StateName" class="form-control-plaintext" readonly />
+                                    </td>
+                                     <td>
+                                        <input asp-for="@Model.ClientAddresses[i].City" class="form-control-plaintext" readonly />
+                                    </td>
+                                      <td>
+                                        <input asp-for="@Model.ClientAddresses[i].Street" class="form-control-plaintext" readonly />
+                                    </td>
+                                       <td>
+                                        <input asp-for="@Model.ClientAddresses[i].PostalCode" class="form-control-plaintext" readonly />
+                                    </td>
+                                        <td>
+                                        <input asp-for="@Model.ClientAddresses[i].HouseNumber" class="form-control-plaintext" readonly />
+                                    </td>
+
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </dd>
+
+    </dl>
+</div>
+<div>
+
+    <a class="btn btn-secondary" asp-action="Index">Back to List</a>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+
+

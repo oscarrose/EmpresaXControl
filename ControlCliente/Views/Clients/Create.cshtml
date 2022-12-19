@@ -1,0 +1,182 @@
+﻿@model DbLibrary.Models.Client
+
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<body>
+    <div class="col-md-6">
+        <h3>Create new client</h3>
+    </div>
+
+    <form asp-action="Create">
+
+
+        @*button for save the clients*@
+        <div class="row">
+            <div class="col-xs-12 text-end">
+                <button type="submit" value="Create" class="btn btn-success">
+                    <i class="fa fa-check"></i>Save client
+                </button>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="col-lg-4">
+                    <label asp-for="ClientName" class="control-label">First Name</label>
+                    <input asp-for="ClientName" class="form-control" />
+                    <span asp-validation-for="ClientName" class="text-danger"></span>
+                </div>
+
+                <div class="col-lg-4">
+                    <label asp-for="LastName" class="control-label">Last Name</label>
+                    <input asp-for="LastName" class="form-control" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+
+                <div class="col-lg-4">
+                    <label asp-for="Identification" class="control-label">Identification</label>
+                    <input asp-for="Identification" class="form-control" />
+                    <span asp-validation-for="Identification" class="text-danger"></span>
+                </div>
+            </div>
+
+        </div>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+
+
+        <div class="container">
+            <div class="row">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="col-lg-4">
+                    <label asp-for="Email" class="control-label">Email</label>
+                    <input asp-for="Email" type="email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <div class="col">
+                    <label asp-for="PhoneNumber" class="control-label">Phone</label>
+                    <input asp-for="PhoneNumber" class="form-control" />
+                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                </div>
+            </div>
+
+        </div>
+        <div class="container">
+
+            <h3 class="mt-1">Addresses</h3>
+            <hr />
+            <div class="row">
+                <table class="table table-hover  table-sm table-responsive" id="tableAddAddresses">
+                    <thead class="table-light">
+                        <tr>
+                            <td>Country</td>
+                            <td>State</td>
+                            <td>City</td>
+                            <td>Street</td>
+                            <td>Postal code</td>
+                            <td>House number</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @for (int i = 0; i < Model.ClientAddresses.Count; i++)
+                        {
+                            <tr>
+
+                                <td>
+
+                                    <input asp-for="ClientAddresses[i].Country" class="form-control" />
+
+                                </td>
+                                <td>
+
+                                     <input asp-for="ClientAddresses[i].StateName" class="form-control" />
+                                </td>
+
+                                <td>
+
+                                    <input asp-for="@Model.ClientAddresses[i].City" type="text" class="form-control" />
+
+                                </td>
+
+                                <td>
+
+                                    <input asp-for="@Model.ClientAddresses[i].Street" type="text" class="form-control" />
+                                </td>
+
+                                <td>
+
+                                    <input asp-for="@Model.ClientAddresses[i].PostalCode" type="text" class="form-control" />
+                                </td>
+                                <td>
+
+                                    <input asp-for="@Model.ClientAddresses[i].HouseNumber" type="text" class="form-control" />
+                                </td>
+                                <td>
+                                    <button id="btn-add-addresses-@i" type="button"
+                                        class="btn btn-sm btn-secondary" onclick="AddItemAddresses(this)">
+                                        <i class="fa fa-plus"></i>
+                                    </button>
+
+                                    <button id="btn-remove-addresses-@i" type="button"
+                                        onclick="RemoveItemAddresses(this)" class="btn btn-sm btn-danger">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </td>
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                 <input type="hidden" id="CountTheAddressesAdd" value="0" />
+            </div>
+           
+        </div>
+
+
+    </form>
+
+</body>
+
+
+
+@*add the scripts*@
+@section scripts{
+<script type="text/javascript">
+
+
+    function RemoveItemAddresses(button){
+        $(button).closest('tr').remove();
+    }
+
+
+    function AddItemAddresses(btn){
+
+        const table=document.getElementById('tableAddAddresses');
+        const rows=table.getElementsByTagName('tr');
+
+        let rowOuterHtml=rows[rows.length-1].outerHTML;
+
+        const indexLastRow=document.getElementById('CountTheAddressesAdd').value
+
+        let indexNextRow=eval(indexLastRow) +1;
+
+        document.getElementById('CountTheAddressesAdd').value=indexNextRow;
+
+        rowOuterHtml=rowOuterHtml.replace('_' + indexLastRow + '_','_' + indexNextRow + '_');
+        rowOuterHtml=rowOuterHtml.replace('[' + indexLastRow + ']','[' + indexNextRow + ']');
+        rowOuterHtml=rowOuterHtml.replace('-' + indexLastRow, '-' + indexNextRow );
+
+        let newRow=table.insertRow();
+        newRow.innerHTML=rowOuterHtml;
+    }
+
+
+</script>
+}
